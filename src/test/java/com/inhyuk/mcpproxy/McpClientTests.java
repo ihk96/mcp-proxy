@@ -1,0 +1,4 @@
+package com.inhyuk.mcpproxy;
+
+public class McpClientTests {
+}
