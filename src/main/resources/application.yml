@@ -1,1 +1,30 @@
-spring.application.name=mcp-proxy
+spring:
+    application:
+        name: mcp-proxy
+    autoconfigure:
+        exclude:
+            - org.springframework.ai.vectorstore.pgvector.autoconfigure.PgVectorStoreAutoConfiguration
+    ai:
+        mcp:
+            client:
+                enabled: false
+                toolcallback:
+                    enabled: false
+            server:
+                enabled: true
+                protocol: streamable
+                streamable-http:
+                    mcp-endpoint: /mcp
+                type: sync
+                name: mcp-proxy
+                annotation-scanner:
+                    enabled: true
+        embedding:
+            transformer:
+                onnx:
+                    model-uri: onnx/model.onnx
+                    model-output-name: token_embeddings
+                tokenizer:
+                    uri: onnx/tokenizer.json
+    main:
+        allow-bean-definition-overriding: true

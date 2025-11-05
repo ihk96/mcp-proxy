@@ -12,7 +12,7 @@ import org.springframework.util.StringUtils;
 
 @Slf4j
 @Component
-public class McpClientService {
+public class McpClientFactory {
 
     public McpSyncClient createStreamClient(String baseUrl, String endpoint) {
         try {
