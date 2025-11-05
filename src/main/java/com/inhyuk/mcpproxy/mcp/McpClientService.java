@@ -1,4 +1,4 @@
-package com.inhyuk.mcpproxy;
+package com.inhyuk.mcpproxy.mcp;
 
 import com.inhyuk.mcpproxy.models.McpTool;
 import io.modelcontextprotocol.client.McpSyncClient;
@@ -10,10 +10,7 @@ import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -37,7 +34,6 @@ public class McpClientService {
             tools.add(toolInfo);
             toolMap.put(name, toolInfo);
             vectorStore.add(List.of(new Document(toolInfo.getDescription(),Map.of("name",toolInfo.getName()))));
-            log.info("save tool: {} - {}", name,description);
         });
     }
 
@@ -55,15 +51,22 @@ public class McpClientService {
 
     public List<McpTool> search_tool(String keyword){
         List<McpTool> search_result = new ArrayList<>();
-        List<McpTool> keywordSearchList = tools.stream().filter(tool->tool.getName().contains(keyword) || tool.getDescription().contains(keyword)).toList();
-        keywordSearchList.forEach(mcpTool -> log.info("keywordSearch: {}", mcpTool));
+        Set<String> distinct = new HashSet<>();
 
         List<Document> results = vectorStore.similaritySearch(SearchRequest.builder().query(keyword).similarityThreshold(0.5).build());
         List<McpTool> similarList = results.stream().map(document -> {
             String name = document.getMetadata().get("name").toString();
-            log.info("similarList: {} - {}", name, document.getScore());
+            distinct.add(name);
             return toolMap.get(name);
         }).toList();
+
+        List<McpTool> keywordSearchList = tools.stream().filter(tool->
+                !distinct.contains(tool.getName())
+                && (
+                    tool.getName().contains(keyword)
+                    || tool.getDescription().contains(keyword)
+                )
+        ).toList();
 
         search_result.addAll(keywordSearchList);
         search_result.addAll(similarList);

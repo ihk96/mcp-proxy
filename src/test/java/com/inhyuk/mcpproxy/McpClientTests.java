@@ -1,6 +1,7 @@
 package com.inhyuk.mcpproxy;
 
-import io.modelcontextprotocol.client.McpClient;
+import com.inhyuk.mcpproxy.mcp.McpClientFactory;
+import com.inhyuk.mcpproxy.mcp.McpClientService;
 import io.modelcontextprotocol.client.McpSyncClient;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

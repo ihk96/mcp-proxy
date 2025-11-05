@@ -1,4 +1,4 @@
-package com.inhyuk.mcpproxy;
+package com.inhyuk.mcpproxy.mcp;
 
 import io.modelcontextprotocol.client.McpClient;
 import io.modelcontextprotocol.client.McpSyncClient;
