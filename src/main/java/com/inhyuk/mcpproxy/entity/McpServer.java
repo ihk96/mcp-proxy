@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -23,6 +24,14 @@ public class McpServer {
 
     public enum TransportType {
         SSE, STREAM
+    }
+
+    @Builder
+    public McpServer(String name, String baseUrl, String endpoint, TransportType transportType) {
+        this.name = name;
+        this.baseUrl = baseUrl;
+        this.endpoint = endpoint;
+        this.transportType = transportType;
     }
 }
 
