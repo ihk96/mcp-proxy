@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/mcp/servers")
+@RequestMapping("/api/v1/mcp/servers")
 @RequiredArgsConstructor
 public class McpServerController {
 
